@@ -1,0 +1,60 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% block meta %}
+<style>
+    /*table{
+    border:2px solid green;
+}
+td{
+    border:1px solid blue;
+}*/
+tr:nth-child(even) {
+    background: #0b6;
+    color: white;
+    opacity: 0.5;
+}
+
+tr:hover {
+    background: skyblue;
+    color: white;
+}
+
+.even {
+    background: #0b6;
+    color: white;
+        /*opacity:;*/
+}
+
+.heading {
+    background-color: aquamarine;
+    border: 1px solid hidden;
+}
+</style>
+
+{% endblock meta %}
+{% block content %}
+<!--form  method='POST'>	
+
+<div class="row">
+    <!-- <div class='card-panel col s6 offset-s3'>
+        <table>
+            <tr class='th'><td>Type</td><td>Rate (Rupees)</td></tr>
+            <tr><td>1 liter</td><td>2.3</td></tr>
+            <tr><td>20 liter</td><td>40</td></tr>
+        </table>
+    </div>     ->
+<!-- <div class="card-panel center col s6 offset-s3" style="background:skyblue;color:white;height:40px"> <b>Water is available</b></div> ->
+    <input name='prod' type='hidden' class='col offset-s3 s6' value=1 required=True />
+        <input type='submit' class="col btn offset-s10 s2 blue" style="color:green;min-width:120px;" value='Dispsense'/>
+        <!--button id="fin" class="col btn s2 red" disabled onclick="">Finish</button->
+</div>
+</form-->
+{% if last_transaction %}
+<form method="POST">
+Do you want to repeat last transaction of 
+<input type="submit" class="btn btn-success" value="Yes, Repeat" />
+</form>
+{% else %}
+    Welcome {{ user }}
+{% endif %}
+{% endblock content %}

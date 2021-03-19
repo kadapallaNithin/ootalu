@@ -1,0 +1,40 @@
+{% extends 'home/list.html' %}
+{% block extend_head %}
+    <script>
+        function go(){
+            var prod_id = document.getElementById('product_id').value;
+            window.location.assign('{% url "new_plan" 0 %}'.replace('0',prod_id));
+        }
+    </script>
+{% endblock %}
+{% block content %}
+    <div>
+    {% if object_list %}
+    <!-- Product are :<br />  -->
+        <h4>Request a plan for </h4>
+        <div>
+            <input type='number' id='product_id' placeholder="Product Id" />
+            <button class="btn btn-outline-info" onclick=go()>Go</button>
+        </div>
+        <div class="row">
+            {% for product in object_list %}
+            <!-- <div class="show-on-hover-container btn my_card full_wide"> -->
+                <div class="show-on-hover-container m-1 col btn btn-outline-secondary">
+                    <div>
+                        <div>
+                            <a href="{% url 'new_plan' product.id %}">{{ product }}</a>
+                        </div>
+                        <small>{{product.address}}, {{ product.address.village }}</small>
+                        <div class="show-on-hover">
+                            Id : {{ product.id }}
+                            {{ product.address.village.town.details }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        Devices aren't there.
+    {% endif %}
+    </div>
+{% endblock %}

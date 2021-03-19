@@ -1,0 +1,26 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<h3>Dispense Water</h3>
+<p>
+    Before you start transaction make sure device is online.
+    Consider power availablity.
+</p>
+<p>
+    <small>Please refresh to get latest info.</small><br />
+    {% if last_txn %}
+        Last transaction with this plan started on : {{ last_txn.started_on }}<br />
+        ProductId : {{ last_txn.plan.product.id }}<br />
+        ProductName : <strong>{{ last_txn.plan.product.name }}</strong><br />
+    {% else %}
+        This is your first transaction with this plan.
+    {% endif %}
+</p>
+<form method="POST">
+    {{ form | crispy }}
+    {% csrf_token %}
+    
+    <input type="submit" class="btn btn-success" value="Dispense" />
+
+</form>
+{% endblock %}

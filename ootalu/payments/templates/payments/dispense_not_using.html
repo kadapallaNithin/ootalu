@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Starting transaction</title>
+    </head>
+    <body onload="document.forms[0].submit();">
+        <h1>Please don't refresh or go back</h1>
+        <form action="http://{{ ip }}/turn/" method="POST">
+            <input type="hidden" name="key" value="nithinkumar" />{{ key }}
+            <input type="hidden" name="req" value="{{ req }}" />
+            <input type="hidden" name="txn" value="{{ txn.id }}" />
+            <input type="hidden" name="cash" value="" />
+        </form>
+    </body>
+</html>

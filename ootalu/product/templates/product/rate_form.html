@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    {% if products %}
+    <div>
+        For example, if <br />
+        Amount : 5<br />
+        Liters per Unit : 10<br />
+        Units : Rs/Medium Bottle or Rs/10L<br />
+        and a user takes 2 Medium Bottles (i.e 10x2 = 20 Liters) of water then the user needs to pay 5x2 = 10 Rupees.<br />
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+            Product : 
+            <select name="product">
+                {% for p in products %}
+                <option value="{{ p.id }}">
+                    {{ p }}
+                </option>
+                {% endfor %}
+            </select>
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-info" value="Set this Rate" />
+    </form>
+    {% else %}
+    You don't own any product to set rate. You may buy one if you want by <a href="{% url 'about' %}">contacting us</a>.
+    {% endif %}
+{% endblock %}

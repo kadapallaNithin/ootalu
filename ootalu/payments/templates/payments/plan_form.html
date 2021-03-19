@@ -1,0 +1,19 @@
+{% extends 'home/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div>
+    <h4>Request a Plan</h4>
+    <div>
+        Product Id : {{ product.id }}<br />
+        Product : {{ product.name }}<br />
+        Address : <br />{{ product.address.details }}
+        <hr />
+    </div>
+    <form method="POST">
+        Limit is the number of liters you want to get the permission upto which you want to get water.
+            {{ form | crispy }}
+        {% csrf_token %}
+        <input type="submit" class="btn btn-success" value="Request" />
+    </form>
+</div>
+{% endblock content %}

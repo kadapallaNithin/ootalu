@@ -1,0 +1,15 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+    <div class="content-section">
+        <legend>You have chosen </legend>
+        <div>
+            <div>
+                Product : {{ rate.product }}                
+            </div>
+            <div>
+                Amount : {{ rate.amount}} {{ rate.units }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

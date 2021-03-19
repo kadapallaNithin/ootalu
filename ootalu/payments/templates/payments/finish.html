@@ -1,0 +1,9 @@
+{% extends 'home/base.html' %}
+{% block content %}
+        <form action="http://{{ ip }}/finish/" method="POST">
+            <input type="hidden" name="key" value="{{ key }}" />
+            <input type="hidden" name="txn" value="{{ txn.id }}" />
+            <!-- <input type="hidden" name="cash" value="" /> -->
+            <input type="submit" class="btn btn-danger" value="STOP" />
+        </form>
+{% endblock %}

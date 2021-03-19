@@ -1,0 +1,56 @@
+{% extends 'home/list.html' %}
+{% block list_content %}
+    <h4>History</h4>
+    {% if object_list %}
+    <!-- <div class="header">
+        Device Name, Dispensed/Requested
+    </div> -->
+    {% for o in object_list %}
+        
+        <div>
+            <div class="txn mt-2">
+                <div class="header">
+                    <strong >{{ o.plan.product }}</strong>
+                    <span class="small show-on-hover-container right"><small>{{ o.started_on.date }}</small><span class="show-on-hover">{{ o.started_on.time }}</span></span>
+                </div>
+                <h5>
+                    {{ o.dispensed }}/{{ o.request }}
+                </h5>
+                <div class="mb-2">
+                    <small>
+                        {% if o.state == 0 %}
+                            <div>Requested</div>
+                        {% elif o.state == 1 %}
+                            <div>Waiting</div>
+                        {% elif o.state == 2 %}
+                            <div>Running</div>
+                        {% else %}
+                            <div>Finished</div>
+                        {% endif %}
+                    </small>
+                    {% if o.state == 0 %}
+                        <a href="{% url 'transaction' 'dispense' o.id %}" class="btn btn-primary">
+                            Start <i class="material-icons small">arrow_downward</i>
+                        </a>
+                        {% if waiting %}
+                            <a href="{% url 'transaction' 'wait_in_queue' o.id %}" class="btn btn-info">Wait in Queue<i class="material-icons small">queue</i></a>
+                        {% endif %}
+                        <a href="{% url 'transaction' 'cancel' o.id %}" class="btn btn-danger">Cancel <i class="material-icons small">cancel</i></a>
+                    {% elif o.state == 1%}
+                        <a href="{% url 'transaction' 'cancel' o.id %}" class="btn btn-danger">Cancel <i class="material-icons small">cancel</i></a>
+                    {% elif o.state == 2 %}
+                        <a href="{% url 'transaction' 'stop' o.id  %}"  class="btn btn-danger">
+                            stop <i class="material-icons small">format_color_reset</i>
+
+                            <!-- pan_tool -->
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        No Hi_Story!
+    {% endif %}
+    
+{% endblock %}

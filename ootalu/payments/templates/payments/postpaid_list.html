@@ -1,0 +1,11 @@
+{% extends 'home/list.html' %}
+{% block list_content %}
+<div>
+    <ul>
+        <h4>Your Plans</h4>
+    {% for o in object %}
+        <li>{{ o.product }}, Used {{ o.used }} out of {{ o.limit }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'home/list.html' %}
+{% block list_content %}
+<div>
+        <h4>Requested Plans</h4>
+    {% if object_list %}
+        {% for o in object_list %}
+        <div class="plan">
+            <div class="pb-4 mt-2">
+                <span>Product : {{ o.product }}</span>
+                <div>User : {{ o.user.username }}</div>
+                Used {{ o.used }} out of {{ o.limit }}
+                {% if o.is_active %}
+                    <span style="color:green;">Active</span>
+                {% else %}
+                    <a href="{% url 'activate' o.id %}" class="btn btn-info fl-right">Activate</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        This device don't have any requested plan.
+    {% endif %}
+</div>
+{% endblock %}

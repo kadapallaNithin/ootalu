@@ -1,0 +1,15 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <div class="content-section">
+        <!-- Product are :<br />  -->
+        <ul>
+            <h3>{{ rates.0.product }}</h3>
+            {% for rate in rates %}
+                <li><a href="{% url 'rates-detail' rate.id %}">
+                        {{ rate.amount }}{{ rate.units }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

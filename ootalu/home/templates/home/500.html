@@ -1,0 +1,8 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <h1>Server Error</h1>
+    <div>
+        We are sorry that there is an error. Please <a href="{% url 'about' %}">contact us</a>.
+        {{ exception }}
+    </div>
+{% endblock %}

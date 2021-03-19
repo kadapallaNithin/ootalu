@@ -1,0 +1,32 @@
+
+<!-- <table>
+    <thead>
+        <tr>
+            <td>Product</td>
+            <td>Dispensed/Requested</td>
+            <td>
+                <span class="show-on-hover-container">Date<span class="show-on-hover">, Time</span></span>
+            </td>
+        </tr>
+    </thead>
+_start_tag_ for o in object_list _end_tag_
+    
+    <div class="container center">
+    <tr>
+        <td>
+        {{ o.plan.product }}
+        </td>
+        <td>
+        {{ o.dispensed }}/{{ o.request }}
+        _start_tag_ if o.state == 0 or o.state == 1 or o.state == 2 _end_tag_
+            <a href="_start_tag_ url 'dispense' o.id _end_tag_" class="btn btn-primary">Start or Finish</a>
+            _start_tag_ if o.state != 2 _end_tag_
+                <a href="_start_tag_ url 'cancel_transaction' o.id _end_tag_" class="btn btn-danger">Cancel</a>
+            _start_tag_ endif _end_tag_
+        _start_tag_ endif _end_tag_
+        </td>
+        <td><span class="show-on-hover-container">{{ o.started_on.date }}<span class="show-on-hover">{{ o.started_on.time }}</span></span></td>
+    </tr>
+    </div>
+_start_tag_ endfor _end_tag_
+</table> -->

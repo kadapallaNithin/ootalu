@@ -1,0 +1,56 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <div>
+        {% if inactive__count %}
+        <h4>Your devices with waiting requests</h4>
+        <!-- o.plan__count -->
+        <div class="row">
+            {% for o in inactive__count %}
+            <div class="col">
+                <a href="{% url 'requests' o.id  %}" class="btn btn-outline-secondary">
+                    {{ o }}
+                    <span class="badge badge-pill badge-info">{{ o.inactive__count }}</span>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <h4>Your Devices List</h4>
+        {% if object_list %}
+            <div class="row">
+            {% for o in object_list %}
+            <div class="show-on-hover-container m-1 col btn btn-outline-secondary">
+                <div>
+                    <div>
+                        <strong>
+                            <a href="{% url 'requests' o.id %}">
+                                {{ o }}
+                            </a>
+                        </strong>
+                    </div>
+                    <div class="card-body">
+                        <small>
+                            Id :{{ o.id }}<br />
+                            {{ o.address.village }}
+                        </small>
+                        <span class="disappear-on-hover">
+                            <span class="material-icons">expand_more</span>
+                        </span>
+                        <div class="show-on-hover">
+                            {{ o.address.village.town }},
+                            {{ o.address.village.town.state }}
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            </div>
+        {% else %}
+            You don't own any device.
+        {% endif %}
+        <div style="padding-top: 10%;">
+        <small>Want a device? Buy a new device by <a href="{% url 'about' %}">contacting us</a> </small>
+        </div>
+    </div>
+
+{% endblock %}

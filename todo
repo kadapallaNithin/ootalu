@@ -1,0 +1,11 @@
+currently not using, only 256 units can be dispensed using cash_bytes.
+To support more, transaction should start by updating cpml by a factor. 
+For example if you want 1000 units, cpml *= 10 and 100 cash_bytes would be good.
+
+Attacker can finish the transaction by getting product_key and not using it. 
+After user starts transaction, Attacker can use the product_key to finish the transaction.
+So try to fix it or detect Attacker.
+
+https://docs.djangoproject.com/en/3.1/ref/settings/ https://docs.djangoproject.com/en/3.1/topics/security/#host-headers-virtual-hosting corresponding to ALLOWED_HOSTS which is currently set to '*'
+
+use environ for public and private keys in webpush directive

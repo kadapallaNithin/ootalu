@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Post Paid Form</title>
+    </head>
+    <body onload="submit_form()">
+
+        <form method="POST">
+            <h1>Please don't refresh</h1>
+            {% csrf_token %}
+            {{ form }}
+        </form>
+        <script>
+            function submit_form(){
+                document.forms[0].submit();
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,159 @@
+body {
+    background: #fafafa;
+    color: #333333;
+    margin-top: 0.1rem;
+    justify-content: center;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+  }
+  
+  ul {
+    margin: 0;
+  }
+  header{
+    margin-bottom: 5px;
+  }
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  .brand-name{
+    font-weight: bolder;
+  }
+  .bg-cloudblue{
+    /* background-color:  rgb(17, 172, 233); */
+    background-image: linear-gradient(to bottom right, rgb(0, 110, 255),rgba(0,10,255,0.3));
+  }  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+  table{
+    padding: 6px;
+  }
+  td{
+    text-align: center;
+    padding: 2px 5px;
+    overflow-x: auto;
+    margin: 3px;
+    border-radius: 40px;
+    border-bottom: 2px solid rgba(20,20,20,0.1);
+    border-right: 1px solid rgba(20,20,20,0.1);
+  }
+  tr{
+    width: 100%;
+  }
+  h4{
+    text-align: center;
+    color: blue;
+  }
+  .show-on-hover{
+    display: none;
+  }
+  .show-on-hover-container:hover .show-on-hover{
+    display: block;
+  }
+  .show-on-hover-container:hover .disappear-on-hover{
+    display: none;
+  }
+  .center{
+    text-align: center;
+  }
+  .right{
+    text-align: right;
+  }
+  .fl-right{
+    float:right;
+  }
+  .full_wide{
+    width: 100%;
+  }
+  .my_card{
+    margin: 2px;
+    padding: 3px;
+    border: 1px solid rgba(20,20,20,0.1);
+    box-shadow: 1px 2px 1px grey;
+  }
+  thead{
+    font-weight: bolder;
+    padding: 10px;
+    color : lightseagreen;
+  }
+  a.my_card{
+    padding-left: 100px;
+  }
+  span.material-icons{
+    position: relative;
+    top: 5px;
+    margin-right: 3px;
+  }
+  .txn{
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+  }
+  .plan{
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+  }

@@ -1,0 +1,41 @@
+{% extends 'home/list.html' %}
+{% block list_content %}
+<div>
+    <h4>Your Plans</h4>
+    <a href="{% url 'products-list' %}" class="btn btn-info"><span class="material-icons">add</span> New Plan</a>
+    <div>
+    {% if object_list %}
+            <div class="row">
+            {% for o in object_list %}
+                        <div class="show-on-hover-container m-1 col btn btn-outline-secondary">
+                            <div>
+                               {% if not o.is_active %}
+                                   <span class="btn btn-warning">{{ o.product }}</span>
+                                   <b style="color: orange;">Waiting for activation...</b>
+                                {% elif o.remaining > 0 %}
+                                    <a href="{% url 'water_transaction' o.id %}" class="btn btn-success">{{ o.product }}</a>
+                                    <!-- <b style="color: green;">Active</b> -->
+                                {% else %}
+                                    <b>{{ o.product }}</b>
+                                {% endif %}
+                                <div>
+                                Used : {{ o.used }}/{{ o.limit }}
+                                </div>
+                                <div class="show-on-hover">
+                                    Plan Id : {{ o.id }}<br />
+                                    Product Id :{{ o.product.id }}<br />
+                                    {{ o.product.address.village }},
+                                    {{ o.product.address.village.town }},
+                                    {{ o.product.address.village.town.state }}
+                                </div>
+                                
+                            </div>
+                        </div>
+            {% endfor %}
+            </div>
+    </div>
+    {% else %}
+        You don't have any plan.
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'home/list.html' %}
+{% block list_content %}
+<div>
+    <h4>Requests in queue</h4>
+    <div style="text-align: center;">
+        {% if txn %}
+            {% if not txn.state == 1 %}
+                <a href="{% url 'transaction' 'wait_in_queue' txn.id %}" class="btn btn-outline-secondary m-1">
+                    Wait In Queue <i class="material-icons small">queue</i>
+                </a>
+            {% endif %}
+            <a href="{% url 'transaction' 'cancel' txn.id %}" class="btn btn-danger m-1">
+                Cancel <i class="material-icons small">cancel</i>
+            </a>
+        {% endif %}
+
+    </div>
+    {% if object_list %}
+        {% for o in object_list %}                
+            <div style="border: 1px dotted grey;">
+                <div class="txn mt-2">
+                    <div class="header">
+                        <strong >{{ o.plan.user }}</strong>
+                    </div>
+                    <h5>
+                        {{ o.request }}
+                    </h5>
+                    {% if o.plan.user == request.user %}
+                        <a href="{% url 'transaction' 'cancel' o.id %}" class="btn btn-danger m-1">
+                            Cancel 
+                            <i class="material-icons small">cancel</i>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="center mt-3">
+            No body is waiting in queue.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
