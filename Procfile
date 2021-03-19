@@ -1,1 +1,1 @@
-web: gunicorn ootalu.wsgi
+web: gunicorn ootalu.ootalu.wsgi
