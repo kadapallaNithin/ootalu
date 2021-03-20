@@ -9,7 +9,7 @@ from .models import PostPaid, WaterPostPaidTransaction, TxnState
 from payments.models import Plan, WaterTransaction
 from product.models import Product, ProductIPAddress
 from product import views as product_views
-from product.views import secure_request
+# from product.views import secure_request
 import requests
 import secrets
 import string
@@ -226,7 +226,7 @@ def finish_txn_func(g,**kwargs):
     return {"code":1,"error":"some data missing or unknown error"}
 
 def finish_txn(request):
-    return secure_request(request,finish_txn_func)
+    return product_views.secure_request(request,finish_txn_func)
 
 def cash(request):
     return HttpResponse('nnnnnnnn')
