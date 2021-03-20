@@ -89,7 +89,7 @@ def dispense(request,txn):
         address = "http://"+ip.ip
         url = address+"/turn/"
         data = {"key":key,"req":txn.request,"txn":txn.id,"stop_key":txn.key, "json":1}
-        response = requests.post(url, data=data) #,timeout=(5,None)
+        response = requests.post(url, data=data,timeout=(5,None)
         print("response content",response.content)
         resp = json.JSONDecoder().decode(response.content.decode())
         if ('req' in resp) and ('txn' in resp) and ('has_dispensed_for' in resp):
