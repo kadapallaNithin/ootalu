@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include
 from home import views as home_views
 #from payments import views as payments_views
-from payments.views import PostPaidCreateView
+# from payments.views import PostPaidCreateView
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -35,7 +35,7 @@ urlpatterns = [
     path('',include('product.urls')),
     path('',include('payments.urls')),
     #path('postpaid/',payments_views.postpaid,name='post-paid'),
-    path('postpaid_create/<int:product_id>',PostPaidCreateView.as_view(),name='postpaid_create'),
+#    path('postpaid_create/<int:product_id>',PostPaidCreateView.as_view(),name='postpaid_create'),
 ]
 
 if settings.DEBUG:

@@ -3,7 +3,7 @@ from django.views.generic import CreateView, DetailView, ListView
 from django.db.models import Count
 from .models import Product, Rate, ProductIPAddress, ServerKey
 #from payments.models import Plan
-import payments.views as payments_views
+from payments import views as payments_views
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseNotModified, HttpResponseNotFound, Http404
