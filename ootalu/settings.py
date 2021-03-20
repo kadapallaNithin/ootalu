@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("OOTALU_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("OOTALU_DEBUG")
+DEBUG = (os.environ.get("OOTALU_DEBUG")=="True")
 
 ALLOWED_HOSTS = [os.environ.get("OOTALU_ALLOWED_HOST"),os.environ.get("OOTALU_ALLOWED_HOST1")]
 
