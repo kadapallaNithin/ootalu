@@ -61,7 +61,9 @@ class WaterTransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, Create
     def get_context_data(self):
         context = super().get_context_data()
  #       context['plan'] = get_object_or_404(Plan,id=self.kwargs.get('plan_id'))
-        context['last_txn'] = WaterTransaction.objects.filter(plan_id=self.kwargs.get('plan_id')).last()
+        plan = get_object_or_404(Plan,id=self.kwargs.get('plan_id'))
+        context['last_txn'] = WaterTransaction.objects.filter(plan_id=plan.id).last()
+        context['ip'] = ProductIPAddress.objects.filter(product_id=plan.product.id).last().ip
         return context
 
 
@@ -79,7 +81,7 @@ def dispense(request,txn):
     key = txn.plan.product.productkey.key
     #key = WaterTransaction.objects.filter(plan__product_id=txn.plan.product.id,state=TxnState.finished).last()
     waiting = WaterTransaction.objects.filter(plan__product_id=txn.plan.product.id,state=TxnState.in_queue)
-    if len(waiting) > 0:
+    if len(waiting) > 0 or ( 'online' in request.POST and request.POST['online'] == "0"):
         return render(request,'payments/waiting_list.html',context={"object_list":waiting,"txn":txn})
     try:
         # ensure transaction is not cancelled after sending request to MCU.
@@ -138,7 +140,7 @@ def stop(request,txn):
             messages.warning(request, "The transaction has already finished")# Either or stopped due to power cut.
         return HttpResponseRedirect(reverse('water_transaction_history'))
     except requests.exceptions.ConnectionError:
-        messages.warning(request, "Device is offline. Try again when it comes back online.")
+        messages.warning(request, "Device is offline or Network is slow. Try again when it comes back online.")
     return HttpResponseRedirect(reverse('water_transaction_history'))#render(request,'payments/offline.html',{"txn":txn})
 
 @login_required
