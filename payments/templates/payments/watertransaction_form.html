@@ -49,11 +49,11 @@
 <h3>Dispense Water</h3>
 <div id="device_info" class="alert">Checking connectivity of device ...</div>
 <p>
-    Before you start transaction make sure device is online.
-    Consider power availablity.
+    Before you start transaction make sure device is <b style='color:green'>online <i class="material-icons">lightbulb</i></b>.<br />
+    Consider <b style='color:red'>power <i class="material-icons">lightbulb</i> </b> availablity.<br />
+    <a href="{% url 'waiting_list' product_id %}" class="btn btn-outline-secondary">See Waiting Transactions (if any)</a>
 </p>
 <p>
-    <small>Please refresh to get latest info.</small><br />
     {% if last_txn %}
         Last transaction with this plan started on : {{ last_txn.started_on }}<br />
         ProductId : {{ last_txn.plan.product.id }}<br />

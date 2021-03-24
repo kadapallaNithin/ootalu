@@ -166,13 +166,13 @@ def product_ip_func(g,**kwargs):
         new_prod_ip = ProductIPAddress.objects.create(product_id=g['id'],ip=g['ip'])
         response = {"product_key":new_key }#, "update_available":1,"password":"12345678","ssid":"kadapalla"}
         if 'next' in g:
-            response.update(payments_views.next_txn(product))
+            response.update(payments_views.get_next_txn(product))
         return response
     return {"error":"IP is is not provided"}
 def product_ip(request):
     return secure_request(request,product_ip_func)
     
-def product_update(request,current_version):
+def product_update(request,current_version): # consider security
     data = "404"
     try:
         path_to_file = path.join(settings.FIRMWARE_UPDATE_PATH,str(current_version))

@@ -1,9 +1,69 @@
 {% extends 'home/base.html' %}
+{% block extend_head %}
+<script>
+    function stop_error(){
+        console.log("stop_error");
+        var msg = document.getElementById('alert_message');
+        msg.className = "alert alert-warning";
+        msg.innerHTML = "Error has occured. It seems the device is not connected to the internet.";
+    }
+    var redirect_time = 10;
+    function update_time(){
+        if(redirect_time < 1){
+            txn_history_link.click();
+        }
+        history_timer.innerHTML = " automatically in "+redirect_time+" s";
+        redirect_time -= 1;
+    }
+    function disable_stop_button(disable){
+        if(disable){
+            stop_button.disabled = true;
+            setInterval(update_time,1000);
+        }else{
+            stop_button.disabled = false;
+        }
+    }
+    function stop_txn(){
+        try{
+            var stop_request;
+            if(window.XMLHttpRequest){
+            	stop_request = new XMLHttpRequest();
+            }else{
+            	stop_request = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+   	        stop_request.onreadystatechange = function (){
+                if(this.status == 200 && this.readyState == 4){
+                    var data = JSON.parse(this.responseText);
+                    console.log(this.responseText);
+                    var txn_error = data["error"];
+                    console.log(typeof(data["error"]));
+                    var msg = document.getElementById('alert_message');
+                    console.log(txn_error == 0);
+                    if(txn_error == 0){
+                        msg.className = "alert alert-success";
+                        disable_stop_button(true);
+                    }else{
+                        msg.className = "alert alert-warning";
+                    }
+                    msg.innerHTML = data['message'];
+                }
+            };
+            stop_request.onerror  = stop_error();
+            stop_request.open("GET", "http://{{ ip }}/finish/?key={{ key }}&txn={{ txn.id }}&json=1", true);
+            stop_request.send();
+        }catch (e){
+            console.log("Exception");
+            console.log(e);
+            stop_error();
+        }
+    }
+</script>
+{% endblock %}
 {% block content %}
-        <form action="http://{{ ip }}/finish/" method="POST">
-            <input type="hidden" name="key" value="{{ key }}" />
-            <input type="hidden" name="txn" value="{{ txn.id }}" />
-            <!-- <input type="hidden" name="cash" value="" /> -->
-            <input type="submit" class="btn btn-danger" value="STOP" />
-        </form>
+    <h4>Stop Dispensing </h4>
+    <div class="center">
+        <div id="alert_message" class="alert"></div>
+        <div class="center">You can stop the transaction by clicking the STOP button below.</div>
+        <button id="stop_button" onclick="stop_txn();" class="btn btn-danger">STOP</button><a href="{% url 'water_transaction_history' %}" id="txn_history_link" class="btn btn-outline-secondary ml-1">See transaction history</a><div id="history_timer"></div>
+    </div>
 {% endblock %}

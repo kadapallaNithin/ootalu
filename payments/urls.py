@@ -21,5 +21,6 @@ urlpatterns = [
     # for product
     #path('sensor_value/',views.store_sensor_values),#not_currently
     path('txn/finish/',views.finish_txn),
+    path('txn/next/',views.next_txn),
     path('cash/',views.cash),
 ]

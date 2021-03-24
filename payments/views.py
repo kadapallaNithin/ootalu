@@ -64,6 +64,7 @@ class WaterTransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, Create
         plan = get_object_or_404(Plan,id=self.kwargs.get('plan_id'))
         context['last_txn'] = WaterTransaction.objects.filter(plan_id=plan.id).last()
         context['ip'] = ProductIPAddress.objects.filter(product_id=plan.product.id).last().ip
+        context['product_id'] = plan.product.id
         return context
 
 
@@ -91,7 +92,7 @@ def dispense(request,txn):
         address = "http://"+ip.ip
         url = address+"/turn/"
         data = {"key":key,"req":txn.request,"txn":txn.id,"stop_key":txn.key, "json":1}
-        response = requests.post(url, data=data,timeout=(5,None))
+        response = requests.post(url, data=data,timeout=(0.5,0.5))
         print("response content",response.content)
         resp = json.JSONDecoder().decode(response.content.decode())
         if ('req' in resp) and ('txn' in resp) and ('has_dispensed_for' in resp):
@@ -113,6 +114,11 @@ def dispense(request,txn):
         txn.state = prev_state
         txn.save()
         return render(request,'payments/offline.html',{"txn":txn})
+    except requests.exceptions.Timeout:
+        # messages.warning(request,"Internet seems to be slow!")
+        # txn.state = prev_state
+        # txn.save()
+        return render(request,'payments/offline.html',{"txn":txn})
 
 @login_required
 def stop(request,txn):
@@ -121,7 +127,7 @@ def stop(request,txn):
         address = "http://"+ip.ip
         url = address+"/finish/"
         data = {"key":txn.key,"txn":txn.id, "json":1}
-        response = requests.post(url, data=data)
+        response = requests.post(url, data=data, timeout=(0.5,0.5))
 #        print("response content",response.content)
         resp = json.JSONDecoder().decode(response.content.decode())
         if "finish" in resp:
@@ -141,6 +147,9 @@ def stop(request,txn):
         return HttpResponseRedirect(reverse('water_transaction_history'))
     except requests.exceptions.ConnectionError:
         messages.warning(request, "Device is offline or Network is slow. Try again when it comes back online.")
+    except requests.exceptions.Timeout:
+        pass
+#        messages.warning(request,"Internet seems to be slow!")
     return HttpResponseRedirect(reverse('water_transaction_history'))#render(request,'payments/offline.html',{"txn":txn})
 
 @login_required
@@ -189,16 +198,22 @@ def cancel_transaction(request,txn):
         messages.warning(request,f"The transaction with id { txn.id } is under progress. You can't cancel it. But you can stop it.")
     return HttpResponseRedirect(reverse('water_transaction_history'))
 
-def next_txn(product):
+# product side
+def get_next_txn(product):
     next_txns = WaterTransaction.objects.filter(plan__product_id=product.id,state=TxnState.in_queue).order_by('started_on')
     if len(next_txns) > 0:
         nxt_txn = next_txns.first()
         nxt_txn.state = TxnState.running
         nxt_txn.save()
         return {"code":201,"req":float(nxt_txn.request), "txn":nxt_txn.id,"stop_key":nxt_txn.key} # , "wait":nxt_txn.wait,"dispensed":txn.dispensed,"txn":txn.id
-    return dict()
+    return {"code":200}
 
-# product side
+def next_txn_func(form_data,**kwargs):
+    if 'id' in form_data :
+        product = get_object_or_404(Product,id=form_data['id'])
+        return get_next_txn(product)
+    return {"code":404}
+
 def store_sensor_values(request):#not currently if implementing, see in finsh_txn_func txn.dispensed == 0 which assumes this is not implemented 
     # txn_id, server_key, prod_id == txn.prod_id 
     return HttpResponse('hi')
@@ -221,7 +236,7 @@ def finish_txn_func(g,**kwargs):
         txn.state = TxnState.finished
         txn.save()
         response = {"code":200}
-        response.update(next_txn(txn.plan.product))
+        response.update(get_next_txn(txn.plan.product))
         return response
  #       else:
 #            return {"code":1,"error":"dispensed was not 0"}
@@ -229,6 +244,8 @@ def finish_txn_func(g,**kwargs):
 
 def finish_txn(request):
     return product_views.secure_request(request,finish_txn_func)
+def next_txn(request):
+    return product_views.secure_request(request,next_txn_func)
 
 def cash(request):
     return HttpResponse('nnnnnnnn')
