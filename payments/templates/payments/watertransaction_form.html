@@ -1,50 +1,5 @@
 {% extends 'home/base.html' %}
 {% load crispy_forms_tags %}
-{% block extend_head %}
-<script>
-    function enable_button(online){
-        if(online){
-            dispense_button.disabled = false;
-            dispense_button.classList.add("btn-success");
-            dispense_button.value = "Dispense";
-            device_info.classList.add("alert-success");
-            device_info.innerHTML = "The device is online";
-            document.getElementsByName('online')[0].value = "1";
-        }else{
-            dispense_button.disabled = false;
-            dispense_button.classList.add("btn-outline-secondary");
-            dispense_button.value = "Wait In Queue";
-            device_info.classList.add("alert-warning");
-            device_info.innerHTML = "The device is not online";
-        }
-    }
-    function f(){
-        try{
-            var check_device;
-            if(window.XMLHttpRequest){
-            	check_device = new XMLHttpRequest();
-            }else{
-            	check_device = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-   	        check_device.onreadystatechange = function (){
-	        if(check_device.readyState == 4 && check_device.status == 200){
-                    if(check_device.responseText == "Yes"){
-                        enable_button(true);
-                    }
-	        	}
-            };
-            check_device.onerror  = function(){
-                enable_button(false);
-            }
-            check_device.open("GET",'http://{{ ip }}/online');
-            check_device.send();
-        }catch (e){
-            enable_button(false);
-        }
-    }
-    document.onload = f();
-</script>
-{% endblock %}
 {% block content %}
 <h3>Dispense Water</h3>
 <div id="device_info" class="alert">Checking connectivity of device ...</div>
@@ -68,4 +23,53 @@
     <input type="hidden" name="online" value="0" />
     <input type="submit" id='dispense_button' class="btn" value="Please Wait" disabled />
 </form>
+{% endblock %}
+{% block extend_js %}
+<script>
+    function enable_button(online){
+        if(online){
+            dispense_button.disabled = false;
+            dispense_button.classList.add("btn-success");
+            dispense_button.value = "Dispense";
+            device_info.classList.add("alert-success");
+            device_info.innerHTML = "The device is online";
+            document.getElementsByName('online')[0].value = "1";
+        }else{
+            dispense_button.disabled = false;
+            dispense_button.classList.add("btn-outline-secondary");
+            dispense_button.value = "Wait In Queue";
+            device_info.classList.add("alert-warning");
+            device_info.innerHTML = "The device is not online";
+        }
+    }
+    function initialize(){
+        setTimeout(enable_button,5000,false);
+        var request = document.getElementsByName('request')[0];
+        request.step = 1;
+        request.value = Math.ceil(request.value)
+        try{
+            var check_device;
+            if(window.XMLHttpRequest){
+            	check_device = new XMLHttpRequest();
+            }else{
+            	check_device = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+   	        check_device.onreadystatechange = function (){
+	        if(check_device.readyState == 4 && check_device.status == 200){
+                    if(check_device.responseText == "Yes"){
+                        enable_button(true);
+                    }
+	        	}
+            };
+            check_device.onerror  = function(){
+                enable_button(false);
+            }
+            check_device.open("GET",'http://{{ ip }}/online');
+            check_device.send();
+        }catch (e){
+            enable_button(false);
+        }
+    }
+    window.onload = initialize();
+</script>
 {% endblock %}

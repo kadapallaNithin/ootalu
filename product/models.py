@@ -8,6 +8,7 @@ class Product(models.Model):
     name = models.CharField(max_length=32)
     address = models.ForeignKey(Address,models.CASCADE,related_name='prod_address')#CharField(max_length=64)
     count_per_unit = models.IntegerField()
+    mac_address = models.CharField(max_length=12)
 
     @property
     def details(self):

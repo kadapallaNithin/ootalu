@@ -8,6 +8,9 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.unit
+class VolumeUnitField(models.DecimalField):
+    def __init__(self,default=0, max_digits=8, decimal_places=2):
+        super().__init__(default=0, max_digits=8, decimal_places=2)
 
 class Plan(models.Model):
     # class Meta:
@@ -15,7 +18,7 @@ class Plan(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     product = models.ForeignKey(Product,on_delete=models.CASCADE)
     limit = models.IntegerField(default=0)
-    used = models.IntegerField(default=0)
+    used = VolumeUnitField()
     date = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=False)
     @property
@@ -34,8 +37,8 @@ class TxnState:
 
 class WaterTransaction(models.Model):
     plan = models.ForeignKey(Plan,on_delete=models.CASCADE)
-    dispensed = models.DecimalField(default=0,  max_digits=8, decimal_places=2)#in liters
-    request = models.DecimalField(default=0, max_digits=8, decimal_places=2)#in liters
+    dispensed = VolumeUnitField()#in liters
+    request = VolumeUnitField()#in liters
     key = models.CharField(max_length=128) # used to stop txn
     state = models.IntegerField(default=TxnState.requested)
     #wait = models.IntegerField(default=10)

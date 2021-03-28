@@ -1,3 +1,7 @@
+# my ignore files
+nithin_test_file.py
+previous_db.sqlite3
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

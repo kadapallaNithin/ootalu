@@ -1,6 +1,15 @@
 {% extends 'home/base.html' %}
-{% block extend_head %}
+{% block content %}
+    <h4>Stop Dispensing </h4>
+    <div class="center">
+        <div id="alert_message" class="alert"></div>
+        <div class="center">You can stop the transaction by clicking the STOP button below or Push button that is available at dispenser.</div>
+        <button id="stop_button" onclick="stop_txn();" class="btn btn-danger">STOP</button><a href="{% url 'water_transaction_history' %}" id="txn_history_link" class="btn btn-outline-secondary ml-1">See transaction history</a><div id="history_timer"></div>
+    </div>
+{% endblock %}
+{% block extend_js%}
 <script>
+    var dispense_button;
     function stop_error(){
         console.log("stop_error");
         var msg = document.getElementById('alert_message');
@@ -57,13 +66,9 @@
             stop_error();
         }
     }
+    document.onload = function(){
+        dispense_button = document.getElementById('dispense_button');
+    }
 </script>
-{% endblock %}
-{% block content %}
-    <h4>Stop Dispensing </h4>
-    <div class="center">
-        <div id="alert_message" class="alert"></div>
-        <div class="center">You can stop the transaction by clicking the STOP button below.</div>
-        <button id="stop_button" onclick="stop_txn();" class="btn btn-danger">STOP</button><a href="{% url 'water_transaction_history' %}" id="txn_history_link" class="btn btn-outline-secondary ml-1">See transaction history</a><div id="history_timer"></div>
-    </div>
+
 {% endblock %}

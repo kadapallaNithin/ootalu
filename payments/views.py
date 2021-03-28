@@ -31,6 +31,7 @@ class WaterTransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, Create
     def form_valid(self,form):
         plan = get_object_or_404(Plan,id=self.kwargs.get('plan_id'))
         form.instance.plan = plan
+        form.instance.request = form.instance.request.to_integral()
         #Invalid = False
         if not plan.is_active :
         #    Invalid = True
@@ -53,6 +54,7 @@ class WaterTransactionCreateView(LoginRequiredMixin, UserPassesTestMixin, Create
             # #         plan.used -= refund
             # # plan.used += form.instance.request
             # # plan.save()
+            
             form.instance.key = ''.join(secrets.choice(string.ascii_uppercase+string.digits + string.ascii_lowercase) for _ in range(128))
 #            form.instance.cash_bytes = ''.join(secrets.choice(string.ascii_uppercase+string.digits + string.ascii_lowercase) for _ in range(form.instance.request))
             return super().form_valid(form)
@@ -146,7 +148,7 @@ def stop(request,txn):
             messages.warning(request, "The transaction has already finished")# Either or stopped due to power cut.
         return HttpResponseRedirect(reverse('water_transaction_history'))
     except requests.exceptions.ConnectionError:
-        messages.warning(request, "Device is offline or Network is slow. Try again when it comes back online.")
+        messages.warning(request, "Device is offline or Network is slow. Try again when it comes back online. You may use push button.")
     except requests.exceptions.Timeout:
         pass
 #        messages.warning(request,"Internet seems to be slow!")

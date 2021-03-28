@@ -1,1 +1,1 @@
-web: gunicorn ootalu.wsgi
+web: gunicorn water-plant.wsgi

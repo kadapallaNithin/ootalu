@@ -163,7 +163,9 @@ def product_ip_func(g,**kwargs):
         product = get_object_or_404(Product,pk=g['id'])
         product.productkey.key = new_key
         product.productkey.save()
-        new_prod_ip = ProductIPAddress.objects.create(product_id=g['id'],ip=g['ip'])
+        last_ip = ProductIPAddress.objects.filter(product_id=g['id']).last()
+        if last_ip.ip != g['ip']:
+            new_prod_ip = ProductIPAddress.objects.create(product_id=g['id'],ip=g['ip'])
         response = {"product_key":new_key }#, "update_available":1,"password":"12345678","ssid":"kadapalla"}
         if 'next' in g:
             response.update(payments_views.get_next_txn(product))
@@ -186,6 +188,12 @@ def product_update(request,current_version): # consider security
 # def product_update(request,current_version):
 #     return secure_request(request,product_update_func)
 
+def reset_rom_data(request):
+    if request.method == "GET":
+        data = request.POST
+        if 'mac' in data:
+#            product = Product,pk=data['pk'])
+            response = {"cpml":product.count_per_unit}
 
 def secure_request(request,func):
     response = dict()
